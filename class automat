@@ -1,0 +1,73 @@
+#include <iostream>
+#include <stdio.h>
+
+using namespace std; 
+
+
+class Automat {
+// data of class automat 
+public:
+	// attributes
+	int x, j;
+	int const constexpr static size = 2;
+	int A1[size][size];
+	int A2[size][size];
+	// functions
+
+	// creategrid: Benutzer setzt anfangs den Status des Automaten
+	auto creategrid() {
+		for (x = 0; x < size; x++) {
+			for (j = 0; j < size; j++) {
+				std::cout << "1 = lebend, 0 = tod";
+				printf("\n");
+				std::cin >> A1[x][j];
+			}
+		}
+	}
+	// showgrid: Spielfeld anzeigen
+	auto showgrid() {
+		int x, j; 
+		for (x = 0; x < size; x++) {
+			for (j = 0; j < size; j++) {
+				printf("%d ", A1[x][j]);
+			}
+			printf("\n");
+		}
+	}
+	// currentgrid: repräsentiert das Spielfeld nach einem Zustandsübergang
+	auto currentgrid() {
+		int x, j;
+		for (x = 0; x < size; x++) {
+			for (j = 0; j < size; j++) {
+				printf("%d ", A2[x][j]);
+			}
+			printf("\n");
+		}
+	}
+	// statetransition: führt den Zustandsübergang durch
+	auto statetransition() {
+		int a, m;
+		for (a = 0; a < size; a++) {
+			for (m = 0; m < size; m++) {
+				if (A1[a][m] == 0) {
+					A2[a][m] = 1;
+				}
+				A2[a][m] = 0;
+				printf("%d ", A2[a][m]);
+			}
+		}
+		printf("\n");
+	}
+};
+
+int main() {
+	Automat A;
+	A.creategrid();
+	printf("\n");
+	A.showgrid();
+	printf("\n");
+	A.statetransition(); //funktioniert nicht ganz.
+
+	system("pause");
+	return 0;
+}
