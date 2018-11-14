@@ -1,3 +1,5 @@
+// created by Mohammed and Mascha
+
 #include <iostream>
 #include <stdio.h>
 
@@ -9,7 +11,7 @@ class Automat {
 public:
     // attributes
     int x, j;
-    int const constexpr static size = 2;
+    int const constexpr static size = 10;
     int A1[size][size];
     int A2[size][size];
     // functions
@@ -18,11 +20,9 @@ public:
     void creategrid() {
         for (x = 0; x < size; x++) {
             for (j = 0; j < size; j++) {
-                std::cout << "1 = lebend, 0 = tod";
-                printf("\n");
-                std::cin >> A1[x][j];
-            }
-        }
+                A1[x][j] = rand()%2;
+
+        }}
     }
     // showgrid: Spielfeld anzeigen
     void showgrid() {
@@ -34,55 +34,48 @@ public:
             printf("\n");
         }
     }
-    // currentgrid: repräsentiert das Spielfeld nach einem Zustandsübergang
-    void currentgrid() {
-        int x, j;
-        for (x = 0; x < size; x++) {
-            for (j = 0; j < size; j++) {
-                printf("%d ", A2[x][j]);
-            }
-            printf("\n");
-        }
-    }
-
-
-
     /*
-Count the neighbors of cell (a, m) starting with cell (a, m - 1)
-------------------------------------------
-| a - 1, m - 1 | a, m - 1 | a + 1, m - 1 |
-----------------------------------------
-| a - 1, m     | a, m     | a + 1, m     |
-------------------------------------------
-| a - 1, m + 1 | a, m + 1 | a + 1, m + 1 |
-------------------------------------------
-*/
-    // statetransition: führt den Zustandsübergang durch
-    void statetransition() {
+    statetransition: führt den Zustandsübergang durch
+    Counts the neighbors of cell A1[a][m] starting with cell A1[a -1][m - 1]
+    ------------------------------------------
+    | a - 1, m - 1 | a, m - 1 | a + 1, m - 1 |
+    ----------------------------------------
+    | a - 1, m     | a, m     | a + 1, m     |
+    ------------------------------------------
+    | a - 1, m + 1 | a, m + 1 | a + 1, m + 1 |
+    ------------------------------------------
+    */
+    void statetransition(){
         int a, m;
-        int counter = 0;
-        if (A1[a-1][m-1] == 1){
-            counter++;}
-        if (A1[a][m-1] == 1){
-            counter++;}
-        if (A1[a-1][m-1] == 1){
-            counter++;}
-        if (A1[a-1][m] == 1){
-            counter++;}
-        if (A1[a+1][m] == 1){
-            counter++;}
-        if (A1[a-1][m+1] == 1){
-            counter++;}
-        if (A1[a][m+1] == 1){
-            counter++;}
-        if (A1[a+1][m+1] == 1){
-            counter++;}
         for (a = 0; a < size; a++) {
             for (m = 0; m < size; m++) {
-                if (A1[a][m] == 1 && counter < 2 || counter > 3){
+                int counter = 0;
+                    if (A1[a - 1][m - 1] == 1) {
+                        counter++;}
+                    if (A1[a][m - 1] == 1) {
+                        counter++; }
+                    if (A1[a - 1][m - 1] == 1) {
+                        counter++; }
+                    if (A1[a - 1][m] == 1) {
+                        counter++; }
+                    if (A1[a + 1][m] == 1) {
+                        counter++; }
+                    if (A1[a - 1][m + 1] == 1) {
+                        counter++; }
+                    if (A1[a][m + 1] == 1) {
+                        counter++;}
+                    if (A1[a + 1][m + 1] == 1) {
+                        counter++; }
+                    /* in the following conditional statements the rules of Conway's Game of Life apply:
+                     * - death of over- or underpopulation
+                     * - survival
+                     * - birth
+                     * - stays dead
+                     * */
+                if ((A1[a][m] == 1 && counter < 2) || ((A1[a][m] == 1) && counter > 3)){
                     A2[a][m] = 0;
                 }
-                else if(A1[a][m] == 1 && counter >= 2 && counter <= 3){
+                else if((A1[a][m] == 1 && counter >= 2) && (A1[a][m] == 1 && counter <= 3)){
                     A2[a][m] = 1;
                 }
 
@@ -91,23 +84,33 @@ Count the neighbors of cell (a, m) starting with cell (a, m - 1)
 
                 else{
                     A2[a][m] = A1[a][m];}
-
-                printf("%d ", A2[a][m]);
-            }
+                }
         }
         printf("\n");
+    }
+
+    // currentgrid: repräsentiert das Spielfeld nach einem Zustandsübergang
+    void currentgrid() {
+        int x, j;
+        for (x = 0; x < size; x++) {
+            for (j = 0; j < size; j++) {
+                printf("%d ", A2[x][j]);
+            }
+            printf("\n");
+
+        }
     }
 
 };
 
 int main() {
-    Automat A;
-    A.creategrid();
+    Automat automat;
+    automat.creategrid();
     printf("\n");
-    A.showgrid();
+    automat.showgrid();
     printf("\n");
-    A.statetransition(); //funktioniert nicht ganz.
-
-    system("pause");
+    automat.statetransition();
+    automat.currentgrid();
+    printf("\n");
     return 0;
 }
