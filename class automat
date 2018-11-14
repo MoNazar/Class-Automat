@@ -47,17 +47,29 @@ public:
 	// statetransition: führt den Zustandsübergang durch
 	auto statetransition() {
 		int a, m;
+		counter = count_neighbours(a, m);
 		for (a = 0; a < size; a++) {
 			for (m = 0; m < size; m++) {
-				if (A1[a][m] == 0) {
-					A2[a][m] = 1;
+				if (A1[a][m] == 1 && counter < 2 || counter > 3){
+					A2[a][m] = 0;
 				}
-				A2[a][m] = 0;
+				else if(A1[a][m] == 1 && counter >= 2 || counter <= 3){
+					A2[a][m] = 1;
+					}
+				
+				else if(A1[a][m] == 0 && counter == 3 || counter > 3){
+					A2[a][m] = 1;}
+				
+				else{
+					A2[a][m] = A1[a][m];}			
+		
 				printf("%d ", A2[a][m]);
 			}
 		}
 		printf("\n");
 	}
+	
+}
 	/*
 Count the neighbors of cell (a, m) starting with cell (a, m - 1)
 ------------------------------------------
